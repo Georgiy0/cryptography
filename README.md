@@ -1,2 +1,2 @@
 # cryptography
-Implementation of simple cryptography algorithms in python.
+Implementation of simple cryptographic algorithms in python.
