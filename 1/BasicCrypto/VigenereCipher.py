@@ -1,16 +1,13 @@
-from math import gcd
-from Helper import eulerFunction
-
 class VigenereCipher:
 	def __init__(self, alphabet, key):
 		self.alphabet = alphabet
 		self.modulo = len(alphabet)
-		self.key = self.processKeys(key)
+		self.key = self.processKey(key)
 		self.alphabet_map = {}
 		for i in range(0, self.modulo):
 			self.alphabet_map[self.alphabet[i]] = i
 		
-	def processKeys(self, key):
+	def processKey(self, key):
 		key = key.encode('ascii')
 		for byte in key:
 			if byte not in self.alphabet:

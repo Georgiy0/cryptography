@@ -5,3 +5,4 @@ from AffineCipher import AffineCipher
 from SimpleSubstitutionCipher import SimpleSubstitutionCipher
 from HillCipher import HillCipher
 from VigenereCipher import VigenereCipher
+from TranspositionCipher import TranspositionCipher

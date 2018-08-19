@@ -2,11 +2,12 @@ import sys, os
 import pickle
 from BasicCrypto import *
 
-def main(path, key):
+def main(path, key_path):
 	with open(path, "rb") as file:
 		data = file.read()
 	alphabet = pickle.load(open("alphabet.data", 'rb'))
-	cipher = VigenereCipher(alphabet, key)
+	key = pickle.load(open("tc.key", 'rb'))
+	cipher = TranspositionCipher(alphabet, key)
 	decrypted_data = cipher.decrypt(data)
 	with open("decrypted.data", 'wb') as file:
 		file.write(decrypted_data)
@@ -14,11 +15,11 @@ def main(path, key):
 if __name__ == "__main__":
 	try:
 		path = sys.argv[1]
-		key = sys.argv[2]
+		key_path = sys.argv[2]
 	except:
-		print("encrypter <file_path> <key>")
+		print("encrypter <file_path> <key_path>")
 		exit(-1)
-	if not os.path.isfile(path):
+	if not os.path.isfile(path) or not os.path.isfile(key_path):
 		print("Invalid path!")
 		exit(-1)
-	main(path, key)
+	main(path, key_path)
