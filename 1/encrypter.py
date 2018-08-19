@@ -16,7 +16,7 @@ def main(path, key):
 	alphabet.sort()
 	pickle.dump(alphabet, open("alphabet.data", 'wb'))
 	pickle.dump(frequencies, open("frequencies.data", 'wb'))
-	cipher = HillCipher(alphabet, key)
+	cipher = VigenereCipher(alphabet, key)
 	encrypted_data = cipher.encrypt(data)
 	with open("encrypted.data", 'wb') as file:
 		file.write(encrypted_data)
@@ -24,9 +24,9 @@ def main(path, key):
 if __name__ == "__main__":
 	try:
 		path = sys.argv[1]
-		key = [[int(sys.argv[2]), int(sys.argv[3])],[int(sys.argv[4]), int(sys.argv[5])]]
+		key = sys.argv[2]
 	except:
-		print("encrypter <file_path> <key_matrix_2x2>")
+		print("encrypter <file_path> <key>")
 		exit(-1)
 	if not os.path.isfile(path):
 		print("Invalid path!")
