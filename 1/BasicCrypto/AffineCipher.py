@@ -1,14 +1,5 @@
 from math import gcd
-
-"""
-Not optimized implementation of Euler function computation.
-"""
-def eulerFunction(n):
-	result = 1
-	for i in range(2, n):
-		if gcd(n, i) == 1:
-			result += 1
-	return result
+from Helper import eulerFunction
 
 class AffineCipher:
 	def __init__(self, alphabet, key_a, key_b):
@@ -29,8 +20,7 @@ class AffineCipher:
 			raise ValueError('key_a should belong to multiplicative group Z_modulo')
 		key_a %= modulo
 		key_b %= modulo
-		eulerFunc = eulerFunction(modulo)
-		key_a_inverse = pow(key_a, eulerFunc - 1, modulo)
+		key_a_inverse = pow(key_a, eulerFunction(modulo) - 1, modulo)
 		return key_a, key_a_inverse, key_b
 		
 	def encrypt(self, data):
