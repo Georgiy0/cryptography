@@ -3,6 +3,7 @@ class ShiftCipher:
 		self.key = self.processKey(key)
 		self.alphabet = alphabet
 		self.modulo = len(alphabet)
+		self.key %= modulo
 		self.alphabet_map = {}
 		for i in range(0, self.modulo):
 			self.alphabet_map[self.alphabet[i]] = i

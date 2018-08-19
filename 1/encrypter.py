@@ -2,7 +2,7 @@ import sys, os
 import pickle
 from BasicCrypto import *
 
-def main(path):
+def main(path, key_a, key_b):
 	with open(path, "rb") as file:
 		data = file.read()
 	frequencies = {}
@@ -16,20 +16,20 @@ def main(path):
 	alphabet.sort()
 	pickle.dump(alphabet, open("alphabet.data", 'wb'))
 	pickle.dump(frequencies, open("frequencies.data", 'wb'))
-	sc = ShiftCipher(alphabet, key)
-	encrypted_data = sc.encrypt(data)
+	cipher = AffineCipher(alphabet, key_a, key_b)
+	encrypted_data = cipher.encrypt(data)
 	with open("encrypted.data", 'wb') as file:
 		file.write(encrypted_data)
-	
 	
 if __name__ == "__main__":
 	try:
 		path = sys.argv[1]
-		key = sys.argv[2]
+		key_a = sys.argv[2]
+		key_b = sys.argv[3]
 	except:
-		print("encrypter <file_path> <key>")
+		print("encrypter <file_path> <key_a> <key_b>")
 		exit(-1)
 	if not os.path.isfile(path):
 		print("Invalid path!")
 		exit(-1)
-	main(path)
+	main(path, key_a, key_b)
