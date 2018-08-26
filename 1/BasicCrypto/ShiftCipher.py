@@ -1,9 +1,17 @@
-class ShiftCipher:
-	def __init__(self, alphabet, key):
-		self.key = self.processKey(key)
+from BaseCipher import BaseCipher
+from random import randint
+
+class ShiftCipher(BaseCipher):
+	def __init__(self, alphabet, key=None):
 		self.alphabet = alphabet
 		self.modulo = len(alphabet)
-		self.key %= modulo
+		if key != None:
+			self.key = self.processKey(key)
+		else:
+			self.key = self.generateKey()
+		self.buildAlphabetMap()
+		
+	def buildAlphabetMap(self):
 		self.alphabet_map = {}
 		for i in range(0, self.modulo):
 			self.alphabet_map[self.alphabet[i]] = i
@@ -13,24 +21,31 @@ class ShiftCipher:
 			return key
 		elif isinstance(key, str):
 			try:
-				return int(key)
+				return int(key) & self.modulo
 			except:
 				raise ValueError('Invalid key provided')
 		else:
 			raise ValueError('Invalid key provided')
+			
+	def generateKey(self):
+		self.key = randint(0, modulo - 1)
+				
+	def transformData(self, data, transformation):
+		newData = b''
+		for byte in data:
+			if byte not in self.alphabet:
+				raise ValueError("Alphabets do not match")
+			newData += transformation(byte)
+		return newData
+		
+	def encryptByte(self, byte):
+		return bytes([self.alphabet[(self.alphabet_map[byte] + self.key) % self.modulo]])
 		
 	def encrypt(self, data):
-		encrypted_data = b''
-		for byte in data:
-			if byte not in self.alphabet:
-				raise ValueError("Alphabet of the data doesn't match with the provided alphabet")
-			encrypted_data += bytes([self.alphabet[(self.alphabet_map[byte] + self.key) % self.modulo]])
-		return encrypted_data
+		return self.transformData(data, self.encryptByte)
+	
+	def decryptByte(self, byte):
+		return bytes([self.alphabet[(self.alphabet_map[byte] - self.key) % self.modulo]])
 			
 	def decrypt(self, data):
-		decrypted_data = b''
-		for byte in data:
-			if byte not in self.alphabet:
-				raise ValueError("Alphabet of the data doesn't match with the provided alphabet")
-			decrypted_data += bytes([self.alphabet[(self.alphabet_map[byte] - self.key) % self.modulo]])
-		return decrypted_data
+		return self.transformData(data, self.decryptByte)

@@ -1,4 +1,6 @@
-class VigenereCipher:
+from BaseCipher import BaseCipher
+
+class VigenereCipher(BaseCipher):
 	def __init__(self, alphabet, key):
 		self.alphabet = alphabet
 		self.modulo = len(alphabet)
@@ -13,6 +15,9 @@ class VigenereCipher:
 			if byte not in self.alphabet:
 				raise ValueError('Invalid key format')
 		return key
+		
+	def generateKey(self):
+		raise NotImplementedError('Key generation not implemented')
 		
 	def encrypt(self, data):
 		encrypted_data = b''
